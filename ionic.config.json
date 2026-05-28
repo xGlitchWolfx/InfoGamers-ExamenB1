@@ -1,0 +1,7 @@
+{
+  "name": "InfoGamers",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
