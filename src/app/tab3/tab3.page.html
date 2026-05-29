@@ -1,17 +1,136 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="dashboard-content">
+  <main class="page-shell">
+    <section class="hero-strip">
+      <div>
+        <span>Panel</span>
+        <h1>Estadisticas</h1>
+      </div>
+      <button class="logout-button" type="button" (click)="logout()">Salir</button>
+    </section>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <section class="stats-grid">
+      <article>
+        <span>Encuestas</span>
+        <strong>{{ stats.total }}</strong>
+      </article>
+      <article>
+        <span>Juegos</span>
+        <strong>{{ stats.games }}</strong>
+      </article>
+      <article>
+        <span>Fotos</span>
+        <strong>{{ stats.photos }}</strong>
+      </article>
+      <article>
+        <span>Top genero</span>
+        <strong>{{ stats.topGenre }}</strong>
+      </article>
+    </section>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+    <p class="load-error" *ngIf="loadError">{{ loadError }}</p>
+
+    <section class="email-check-panel" *ngIf="isSurveyor">
+      <div class="section-head">
+        <span>Admin</span>
+        <strong>Verificar correo</strong>
+      </div>
+      <ion-item>
+        <ion-label position="stacked">Correo del encuestado</ion-label>
+        <ion-input [(ngModel)]="lookupEmail" type="email" placeholder="persona@correo.com"></ion-input>
+      </ion-item>
+      <ion-button expand="block" (click)="checkEmailMatch()" [disabled]="isCheckingEmail">
+        {{ isCheckingEmail ? 'Revisando' : 'Buscar coincidencia' }}
+      </ion-button>
+      <p *ngIf="lookupMessage">{{ lookupMessage }}</p>
+    </section>
+
+    <section class="download-qr-panel" *ngIf="isSurveyor">
+      <div class="section-head">
+        <span>Admin</span>
+        <strong>Descargar app</strong>
+      </div>
+      <div class="download-qr-box">
+        <img src="assets/infogamers-download-qr.svg" alt="QR de descarga de InfoGamers-Poli" />
+      </div>
+    </section>
+
+    <section class="charts-grid">
+      <article class="chart-card donut-card">
+        <div class="section-head">
+          <span>Meta</span>
+          <strong>50</strong>
+        </div>
+        <div class="donut" [style.background]="donutStyle">
+          <div>
+            <strong>{{ completionPercent }}%</strong>
+            <span>avance</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="chart-card">
+        <div class="section-head">
+          <span>Generos</span>
+          <strong>Ranking</strong>
+        </div>
+        <div class="bar-list">
+          <div class="bar-row" *ngFor="let item of genreEntries">
+            <label>{{ item[0] }}</label>
+            <div class="bar-track">
+              <span [style.width.%]="barWidth(item[1])"></span>
+            </div>
+            <small>{{ item[1] }}</small>
+          </div>
+        </div>
+      </article>
+
+      <article class="chart-card pie-card">
+        <div class="section-head">
+          <span>Roles</span>
+          <strong>Total</strong>
+        </div>
+        <div class="pie" [style.background]="pieStyle"></div>
+        <div class="legend">
+          <span *ngFor="let item of roleEntries">{{ item[0] }} - {{ item[1] }}</span>
+        </div>
+      </article>
+
+      <article class="chart-card">
+        <div class="section-head">
+          <span>Edades</span>
+          <strong>Rangos</strong>
+        </div>
+        <div class="age-bars">
+          <div *ngFor="let item of ageEntries">
+            <span [style.height.%]="barWidth(item[1])"></span>
+            <small>{{ item[0] }}</small>
+          </div>
+        </div>
+      </article>
+
+      <article class="chart-card wide-chart">
+        <div class="section-head">
+          <span>Plataformas</span>
+          <strong>Distribucion</strong>
+        </div>
+        <div class="platform-pills">
+          <span *ngFor="let item of platformEntries">
+            {{ item[0] }}
+            <strong>{{ item[1] }}</strong>
+          </span>
+        </div>
+      </article>
+
+      <article class="chart-card wide-chart">
+        <div class="section-head">
+          <span>Actividad</span>
+          <strong>Registros</strong>
+        </div>
+        <svg class="line-chart" viewBox="0 0 100 80" preserveAspectRatio="none">
+          <polyline [attr.points]="linePolyline" />
+          <circle *ngFor="let point of linePoints" [attr.cx]="point.x" [attr.cy]="point.y" r="2" />
+        </svg>
+      </article>
+    </section>
+  </main>
 </ion-content>

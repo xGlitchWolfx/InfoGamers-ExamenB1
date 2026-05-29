@@ -1,17 +1,157 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="survey-content">
+  <main class="page-shell">
+    <section class="hero-strip">
+      <div>
+        <span>Game Survey</span>
+        <h1>Captura la respuesta</h1>
+      </div>
+      <strong>01</strong>
+    </section>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <section class="thanks-panel" *ngIf="shouldShowThankYou">
+      <div class="check-mark">OK</div>
+      <h2>Gracias por participar</h2>
+      <ion-button expand="block" href="/tabs/tab2">Ver resultados</ion-button>
+    </section>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    <section class="form-panel" *ngIf="!shouldShowThankYou">
+      <p class="load-error" *ngIf="isCheckingSubmission">Revisando participacion...</p>
+
+      <ion-item *ngIf="isSurveyor">
+        <ion-label position="stacked">Correo del encuestado</ion-label>
+        <ion-input [(ngModel)]="form.respondentEmail" type="email" placeholder="persona@correo.com"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Alias o nombre</ion-label>
+        <ion-input [(ngModel)]="form.alias" placeholder="Ej. Mateo"></ion-input>
+      </ion-item>
+
+      <div class="form-grid">
+        <ion-item>
+          <ion-label position="stacked">Edad</ion-label>
+          <ion-select [(ngModel)]="form.ageRange">
+            <ion-select-option value="12 - 17">12 - 17</ion-select-option>
+            <ion-select-option value="18 - 24">18 - 24</ion-select-option>
+            <ion-select-option value="25 - 34">25 - 34</ion-select-option>
+            <ion-select-option value="35+">35+</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Rol</ion-label>
+          <ion-select [(ngModel)]="form.role">
+            <ion-select-option value="Estudiante">Estudiante</ion-select-option>
+            <ion-select-option value="Docente">Docente</ion-select-option>
+            <ion-select-option value="Administrativo">Administrativo</ion-select-option>
+            <ion-select-option value="Visitante">Visitante</ion-select-option>
+            <ion-select-option value="Otro">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <ion-item>
+        <ion-label position="stacked">Videojuego favorito</ion-label>
+        <ion-input [(ngModel)]="form.favoriteGame" placeholder="Ej. Minecraft"></ion-input>
+      </ion-item>
+
+      <div class="api-card">
+        <div>
+          <span>RAWG API</span>
+          <strong>{{ gamePreview?.gameInfo?.title || 'Busca datos del juego' }}</strong>
+          <p *ngIf="gamePreview">{{ gamePreview.gameInfo.genre }} - {{ gamePreview.gameInfo.platform }} - rating {{ gamePreview.gameInfo.rating }}</p>
+          <p *ngIf="apiError">{{ apiError }}</p>
+        </div>
+        <img *ngIf="gamePreview?.imageUrl" class="game-thumb" [src]="gamePreview?.imageUrl" alt="Imagen del juego" />
+        <ion-button fill="clear" (click)="searchGame()" [disabled]="isSearchingGame">
+          {{ isSearchingGame ? 'Buscando' : 'Buscar' }}
+        </ion-button>
+      </div>
+
+      <div class="form-grid">
+        <ion-item>
+          <ion-label position="stacked">Plataforma</ion-label>
+          <ion-select [(ngModel)]="form.platform">
+            <ion-select-option value="Movil">Movil</ion-select-option>
+            <ion-select-option value="Consola">Consola</ion-select-option>
+            <ion-select-option value="PC">PC</ion-select-option>
+            <ion-select-option value="Navegador">Navegador</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Genero</ion-label>
+          <ion-select [(ngModel)]="form.genre">
+            <ion-select-option value="Accion">Accion</ion-select-option>
+            <ion-select-option value="Aventura">Aventura</ion-select-option>
+            <ion-select-option value="Deportes">Deportes</ion-select-option>
+            <ion-select-option value="Estrategia">Estrategia</ion-select-option>
+            <ion-select-option value="RPG">RPG</ion-select-option>
+            <ion-select-option value="Terror">Terror</ion-select-option>
+            <ion-select-option value="Simulacion">Simulacion</ion-select-option>
+            <ion-select-option value="Otro">Otro</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <ion-item>
+        <ion-label position="stacked">Lugar aproximado</ion-label>
+        <ion-input [(ngModel)]="form.place" placeholder="Ej. Universidad, evento, casa"></ion-input>
+      </ion-item>
+
+      <div class="location-card">
+        <div>
+          <span>Ubicacion</span>
+          <strong>{{ form.locationAccuracy === 'precise' ? 'Precisa' : 'Aproximada' }}</strong>
+        </div>
+        <ion-select [(ngModel)]="form.locationAccuracy" interface="popover">
+          <ion-select-option value="approximate">Aproximada</ion-select-option>
+          <ion-select-option value="precise">Precisa</ion-select-option>
+        </ion-select>
+      </div>
+
+      <ion-item>
+        <ion-label position="stacked">Comentario breve</ion-label>
+        <ion-textarea [(ngModel)]="form.comment" autoGrow="true" placeholder="Que dijo la persona"></ion-textarea>
+      </ion-item>
+
+      <div class="photo-card">
+        <div>
+          <span>Evidencia</span>
+          <strong>Imagen</strong>
+        </div>
+        <div class="photo-actions">
+          <ion-button fill="clear" (click)="useApiImage()" [disabled]="!gamePreview?.imageUrl">API</ion-button>
+          <ion-button fill="clear" (click)="chooseGalleryPhoto()" [disabled]="isCapturingPhoto">Galeria</ion-button>
+          <ion-button fill="clear" (click)="chooseCameraPhoto()" [disabled]="isCapturingPhoto">
+            {{ isCapturingPhoto ? 'Abriendo' : 'Camara' }}
+          </ion-button>
+        </div>
+      </div>
+      <input
+        #cameraInput
+        class="hidden-photo-input"
+        type="file"
+        accept="image/*"
+        capture="environment"
+        (change)="onPhotoFileSelected($event)"
+      />
+      <input
+        #galleryInput
+        class="hidden-photo-input"
+        type="file"
+        accept="image/*"
+        (change)="onPhotoFileSelected($event)"
+      />
+
+      <img *ngIf="form.imageUrl" class="photo-preview" [src]="form.imageUrl" alt="Evidencia de encuesta" />
+
+      <p *ngIf="captureError" class="capture-error">{{ captureError }}</p>
+      <p *ngIf="saveError" class="capture-error">{{ saveError }}</p>
+
+      <ion-button expand="block" size="large" (click)="saveSurvey()" [disabled]="isSaving || isCheckingSubmission">
+        {{ isSaving ? isGettingLocation ? 'Tomando ubicacion' : 'Guardando' : 'Enviar encuesta' }}
+      </ion-button>
+    </section>
+  </main>
 </ion-content>

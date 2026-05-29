@@ -1,0 +1,47 @@
+<ion-content [fullscreen]="true" class="auth-content">
+  <main class="auth-shell">
+    <section class="intro-panel">
+      <span class="eyebrow">InfoGamers</span>
+      <h1>Game Survey</h1>
+    </section>
+
+    <section class="auth-panel">
+      <div class="mode-switch" [class.is-register]="mode === 'register'">
+        <button type="button" (click)="setMode('login')">Login</button>
+        <button type="button" (click)="setMode('register')">Register</button>
+        <span></span>
+      </div>
+
+      <ion-item *ngIf="mode === 'register'">
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-input [(ngModel)]="name" autocomplete="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Correo</ion-label>
+        <ion-input [(ngModel)]="email" autocomplete="email" type="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Clave</ion-label>
+        <ion-input [(ngModel)]="password" autocomplete="current-password" type="password"></ion-input>
+      </ion-item>
+
+      <div class="password-meter" *ngIf="mode === 'register'" [class.is-medium]="passwordStrength === 'medio'" [class.is-safe]="passwordStrength === 'seguro'">
+        <div class="meter-track">
+          <span></span>
+        </div>
+        <div class="meter-copy">
+          <strong>{{ passwordStrength }}</strong>
+          <small>{{ passwordHint }}</small>
+        </div>
+      </div>
+
+      <p class="auth-error" *ngIf="authError">{{ authError }}</p>
+
+      <ion-button expand="block" size="large" (click)="submit()" [disabled]="!canSubmit || isSubmitting">
+        {{ isSubmitting ? 'Procesando' : mode === 'register' ? 'Crear cuenta' : 'Entrar' }}
+      </ion-button>
+    </section>
+  </main>
+</ion-content>

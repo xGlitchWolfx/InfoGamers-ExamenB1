@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'InfoGamers',
+  appId: 'com.infogamers.poli',
+  appName: 'InfoGamers-Poli',
   webDir: 'www'
 };
 

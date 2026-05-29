@@ -1,1 +1,68 @@
+:host {
+  ion-tabs {
+    background: #10002b;
+  }
 
+  ion-tab-bar {
+    --background: rgba(20, 13, 37, .94);
+    --border: 0;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 22px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    box-shadow: 0 16px 38px rgba(0, 0, 0, .38);
+    height: 64px;
+    left: 50%;
+    margin: 0;
+    overflow: visible;
+    padding: 8px 12px;
+    position: absolute;
+    transform: translateX(-50%);
+    width: min(92vw, 420px);
+  }
+
+  ion-tab-bar::before {
+    background: linear-gradient(90deg, #fff35c, #2ee1d2, #7b5cff);
+    border-radius: inherit;
+    content: '';
+    inset: -1px;
+    opacity: .22;
+    position: absolute;
+    z-index: -1;
+  }
+
+  ion-tab-button {
+    --background: transparent;
+    --background-focused: transparent;
+    --color: rgba(255, 255, 255, .64);
+    --color-selected: #fff;
+    border-radius: 16px;
+    min-height: 46px;
+    position: relative;
+  }
+
+  ion-tab-button.tab-selected {
+    background: rgba(255, 255, 255, .06);
+  }
+
+  ion-tab-button.tab-selected::before {
+    background: linear-gradient(135deg, #fff35c, #2ee1d2);
+    border-radius: 999px;
+    content: '';
+    height: 4px;
+    left: 50%;
+    position: absolute;
+    top: 4px;
+    transform: translateX(-50%);
+    width: 28px;
+  }
+
+  ion-icon {
+    font-size: 21px;
+    margin-bottom: 2px;
+  }
+
+  ion-label {
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+}

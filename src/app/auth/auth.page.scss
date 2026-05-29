@@ -1,0 +1,159 @@
+.auth-content {
+  --background: #10002b;
+}
+
+.auth-shell {
+  background:
+    radial-gradient(circle at 50% 24%, rgba(40, 18, 95, .68), transparent 30%),
+    linear-gradient(180deg, #17033b 0%, #10002b 58%, #070016 100%);
+  color: #fff;
+  display: grid;
+  gap: 22px;
+  min-height: 100%;
+  padding: 28px 20px;
+}
+
+.intro-panel {
+  align-self: end;
+  padding: 52px 4px 8px;
+}
+
+.eyebrow {
+  color: #fff;
+  font-size: 13px;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 1;
+  margin: 10px 0 14px;
+}
+
+p {
+  color: rgba(255, 255, 255, .78);
+  font-size: 15px;
+  line-height: 1.45;
+  margin: 0;
+  max-width: 34rem;
+}
+
+.auth-panel {
+  align-self: end;
+  background: rgba(13, 2, 42, .9);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -22px 70px rgba(4, 0, 16, .36);
+  padding: 18px;
+}
+
+.mode-switch {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  padding: 5px;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.mode-switch span {
+  background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  border-radius: 13px;
+  inset: 5px auto 5px 5px;
+  position: absolute;
+  transition: transform 260ms ease;
+  width: calc(50% - 5px);
+}
+
+.mode-switch.is-register span {
+  transform: translateX(100%);
+}
+
+.mode-switch button {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-weight: 800;
+  min-height: 42px;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 1;
+}
+
+.mode-switch button:first-child,
+.mode-switch.is-register button:last-child {
+  color: #070019;
+}
+
+.mode-switch.is-register button:first-child {
+  color: #fff;
+}
+
+ion-item {
+  --background: rgba(255, 255, 255, .08);
+  --border-color: rgba(255, 255, 255, .08);
+  --color: #fff;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+ion-button {
+  --background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  --border-radius: 14px;
+  --color: #070019;
+  font-weight: 700;
+  margin-top: 18px;
+}
+
+.password-meter {
+  margin: 4px 0 14px;
+}
+
+.meter-track {
+  background: rgba(255, 255, 255, .1);
+  border-radius: 999px;
+  height: 9px;
+  overflow: hidden;
+}
+
+.meter-track span {
+  background: #ff6b9a;
+  display: block;
+  height: 100%;
+  transition: width 220ms ease, background 220ms ease;
+  width: 33%;
+}
+
+.password-meter.is-medium .meter-track span {
+  background: #fff35c;
+  width: 66%;
+}
+
+.password-meter.is-safe .meter-track span {
+  background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  width: 100%;
+}
+
+.meter-copy {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.meter-copy strong {
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.meter-copy small {
+  color: rgba(255, 255, 255, .7);
+}
+
+.auth-error {
+  color: #fff;
+  font-size: 13px;
+  margin: 6px 0 0;
+}

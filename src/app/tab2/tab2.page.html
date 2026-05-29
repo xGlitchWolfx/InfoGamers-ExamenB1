@@ -1,17 +1,109 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="records-content">
+  <main class="page-shell">
+    <section class="hero-strip">
+      <div>
+        <span>Resultados</span>
+        <h1>Juegos y ubicaciones</h1>
+      </div>
+      <strong>{{ records.length }}</strong>
+    </section>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <p class="load-error" *ngIf="loadError">{{ loadError }}</p>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+    <section class="map-panel">
+      <div class="neon-world-map">
+        <img
+          *ngFor="let tile of worldTiles"
+          class="map-tile world-tile"
+          [src]="tile.url"
+          alt=""
+          [style.left.%]="tile.left"
+          [style.top.%]="tile.top"
+          [style.width.%]="tile.size"
+          [style.height.%]="tile.size"
+        />
+        <button
+          *ngFor="let record of records"
+          class="map-pin"
+          type="button"
+          [attr.aria-label]="'Abrir ubicacion de ' + record.favoriteGame + ' en Google Maps'"
+          [style.left.%]="worldPinLeft(record)"
+          [style.top.%]="worldPinTop(record)"
+          (click)="openInGoogleMaps(record)"
+        >
+          <small>{{ record.favoriteGame.charAt(0) }}</small>
+        </button>
+      </div>
+      <div class="map-caption">
+        <strong>Mapamundi</strong>
+      </div>
+    </section>
+
+    <section class="map-panel">
+      <div class="real-map quito-map">
+        <img
+          *ngFor="let tile of quitoTiles"
+          class="map-tile"
+          [src]="tile.url"
+          alt=""
+          [style.left.%]="tile.left"
+          [style.top.%]="tile.top"
+          [style.width.%]="tile.size"
+          [style.height.%]="tile.size"
+        />
+        <button
+          *ngFor="let record of records"
+          class="map-pin"
+          [class.is-approximate]="record.locationAccuracy === 'approximate'"
+          [hidden]="!isInQuitoMap(record)"
+          type="button"
+          [attr.aria-label]="'Abrir ubicacion de ' + record.favoriteGame + ' en Google Maps'"
+          [style.left.%]="quitoPinLeft(record)"
+          [style.top.%]="quitoPinTop(record)"
+          (click)="openInGoogleMaps(record)"
+        >
+          <small>{{ record.favoriteGame.charAt(0) }}</small>
+        </button>
+      </div>
+      <div class="map-caption">
+        <strong>Quito</strong>
+      </div>
+    </section>
+
+    <ion-item class="search-box">
+      <ion-label position="stacked">Buscar</ion-label>
+      <ion-input [(ngModel)]="query" placeholder="Juego, alias, genero o lugar"></ion-input>
+    </ion-item>
+
+    <section class="record-list">
+      <ion-card *ngFor="let record of records">
+        <img [src]="record.imageUrl" [alt]="record.favoriteGame" />
+        <ion-card-header>
+          <ion-card-title>{{ record.favoriteGame }}</ion-card-title>
+          <p>{{ record.alias }} - {{ record.place }}</p>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="tag-row">
+            <span>{{ record.platform }}</span>
+            <span>{{ record.genre }}</span>
+            <span>{{ record.createdAt | date:'short' }}</span>
+          </div>
+          <div class="location-strip">
+            <div>
+              <strong>{{ record.place }}</strong>
+              <span>{{ record.latitude }}, {{ record.longitude }}</span>
+            </div>
+            <ion-button fill="clear" size="small" (click)="openInGoogleMaps(record)">
+              Ver en Maps
+            </ion-button>
+          </div>
+          <p>{{ record.comment }}</p>
+          <div class="api-strip">
+            <strong>RAWG</strong>
+            <span>{{ record.gameInfo.genre }} - rating {{ record.gameInfo.rating }}</span>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </section>
+  </main>
 </ion-content>

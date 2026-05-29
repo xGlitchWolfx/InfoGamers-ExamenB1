@@ -1,0 +1,235 @@
+.survey-content {
+  --background: #10002b;
+}
+
+.page-shell {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(48, 20, 112, .72), transparent 30%),
+    linear-gradient(180deg, #17033b 0%, #10002b 55%, #070016 100%);
+  color: #fff;
+  min-height: 100%;
+  padding: 18px 18px 96px;
+}
+
+.hero-strip {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 2px 18px;
+}
+
+.hero-strip span {
+  color: #fff;
+  font-size: 13px;
+}
+
+.hero-strip h1 {
+  font-size: 34px;
+  line-height: 1.05;
+  margin: 8px 0 0;
+}
+
+.hero-strip strong {
+  color: rgba(255, 255, 255, .38);
+  font-size: 48px;
+}
+
+.form-panel {
+  background: rgba(13, 2, 42, .9);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 22px;
+  padding: 16px;
+}
+
+.thanks-panel {
+  background: rgba(13, 2, 42, .9);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 22px;
+  display: grid;
+  gap: 14px;
+  padding: 24px 18px;
+  text-align: center;
+}
+
+.thanks-panel h2 {
+  font-size: 28px;
+  margin: 0;
+}
+
+.check-mark {
+  align-items: center;
+  background: linear-gradient(135deg, #fff35c, #2ee1d2);
+  border-radius: 50%;
+  color: #09001d;
+  display: flex;
+  font-size: 24px;
+  font-weight: 900;
+  height: 86px;
+  justify-content: center;
+  margin: 0 auto;
+  width: 86px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+ion-item {
+  --background: rgba(255, 255, 255, .08);
+  --border-color: rgba(255, 255, 255, .08);
+  --color: #fff;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.location-card,
+.photo-card {
+  background: rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  color: #fff;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 12px;
+}
+
+.api-card {
+  align-items: center;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding: 12px;
+}
+
+.game-thumb {
+  border-radius: 10px;
+  flex: 0 0 58px;
+  height: 58px;
+  object-fit: cover;
+  width: 58px;
+}
+
+.api-card span {
+  color: rgba(255, 255, 255, .62);
+  display: block;
+  font-size: 12px;
+}
+
+.api-card strong {
+  display: block;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.api-card p {
+  color: rgba(255, 255, 255, .72);
+  font-size: 12px;
+  margin: 4px 0 0;
+}
+
+.api-card ion-button {
+  --color: #09001d;
+  --background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  flex: 0 0 auto;
+  font-weight: 800;
+}
+
+.location-card span,
+.photo-card span {
+  color: #fff;
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.location-card strong,
+.photo-card strong {
+  color: #fff;
+  display: block;
+  font-size: 16px;
+  margin-top: 6px;
+}
+
+.location-card ion-select {
+  --background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  --border-radius: 14px;
+  --color: #09001d;
+  background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  border-radius: 14px;
+  color: #09001d;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 0 12px;
+}
+
+.location-card ion-button,
+.photo-card ion-button {
+  --background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  --border-radius: 14px;
+  --color: #09001d;
+  font-weight: 800;
+  margin: 0;
+}
+
+.photo-actions {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.photo-card {
+  margin-bottom: 12px;
+}
+
+.photo-preview {
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  display: block;
+  margin-bottom: 12px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.hidden-photo-input {
+  display: none;
+}
+
+.capture-error {
+  color: #fff;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.load-error {
+  color: rgba(255, 255, 255, .72);
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+ion-button {
+  --background: linear-gradient(90deg, #fff35c, #2ee1d2);
+  --border-radius: 14px;
+  --color: #070019;
+  font-weight: 800;
+}
+
+@media (max-width: 560px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .location-card,
+  .photo-card {
+    gap: 8px;
+  }
+
+  .photo-actions {
+    grid-template-columns: 1fr;
+  }
+}
