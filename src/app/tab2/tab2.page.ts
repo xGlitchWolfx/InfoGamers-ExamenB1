@@ -12,6 +12,7 @@ import {
   IonItem,
   IonLabel,
 } from '@ionic/angular/standalone';
+import { AuthService } from '../services/auth.service';
 import { SurveyRecord, SurveyService } from '../services/survey.service';
 
 @Component({
@@ -44,7 +45,10 @@ export class Tab2Page implements OnInit {
   worldTiles = this.buildWorldTiles();
   quitoTiles = this.buildQuitoTiles();
 
-  constructor(private readonly surveyService: SurveyService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly surveyService: SurveyService,
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.loadRecords();
@@ -54,10 +58,22 @@ export class Tab2Page implements OnInit {
     this.loadError = '';
 
     try {
-      await this.surveyService.loadSurveys();
+      await this.surveyService.loadSurveys({ includeLocation: this.isSurveyor });
     } catch (error) {
       this.loadError = error instanceof Error ? error.message : 'No se pudieron cargar resultados.';
     }
+  }
+
+  get isSurveyor(): boolean {
+    return this.authService.currentUser?.role === 'surveyor';
+  }
+
+  get resultsTitle(): string {
+    return this.isSurveyor ? 'Juegos y ubicaciones' : 'Juegos';
+  }
+
+  get searchPlaceholder(): string {
+    return this.isSurveyor ? 'Juego, alias, genero o lugar' : 'Juego, alias o genero';
   }
 
   get records(): SurveyRecord[] {
@@ -67,7 +83,7 @@ export class Tab2Page implements OnInit {
     }
 
     return this.surveyService.surveys.filter((survey) =>
-      [survey.alias, survey.favoriteGame, survey.genre, survey.platform, survey.place]
+      this.searchFieldsFor(survey)
         .join(' ')
         .toLowerCase()
         .includes(normalizedQuery)
@@ -174,5 +190,10 @@ export class Tab2Page implements OnInit {
 
   private clampPercent(value: number): number {
     return Math.max(0, Math.min(100, value));
+  }
+
+  private searchFieldsFor(survey: SurveyRecord): string[] {
+    const fields = [survey.alias, survey.favoriteGame, survey.genre, survey.platform];
+    return this.isSurveyor ? [...fields, survey.place] : fields;
   }
 }

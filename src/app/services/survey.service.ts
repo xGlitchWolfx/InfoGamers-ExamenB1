@@ -41,9 +41,9 @@ interface SurveyRow {
   favorite_game: string;
   platform: string;
   genre: string;
-  place: string;
-  latitude: number;
-  longitude: number;
+  place?: string;
+  latitude?: number;
+  longitude?: number;
   location_accuracy?: 'precise' | 'approximate';
   comment: string;
   image_url: string;
@@ -95,17 +95,38 @@ export class SurveyService {
     return this.surveyCache;
   }
 
-  async loadSurveys(): Promise<SurveyRecord[]> {
+  async loadSurveys(options: { includeLocation?: boolean } = {}): Promise<SurveyRecord[]> {
+    const selectColumns = options.includeLocation
+      ? '*'
+      : [
+          'id',
+          'user_id',
+          'respondent_email',
+          'alias',
+          'age_range',
+          'role',
+          'favorite_game',
+          'platform',
+          'genre',
+          'comment',
+          'image_url',
+          'game_title',
+          'game_genre',
+          'game_platform',
+          'game_rating',
+          'created_at',
+        ].join(',');
+
     const { data, error } = await this.supabase.client
       .from('surveys')
-      .select('*')
+      .select(selectColumns)
       .order('created_at', { ascending: false });
 
     if (error) {
       throw new Error(error.message);
     }
 
-    this.surveyCache = (data || []).map((row) => this.fromRow(row as SurveyRow));
+    this.surveyCache = (data || []).map((row) => this.fromRow(row as unknown as SurveyRow));
     return this.surveyCache;
   }
 
@@ -262,9 +283,9 @@ export class SurveyService {
       favoriteGame: row.favorite_game,
       platform: row.platform,
       genre: row.genre,
-      place: row.place,
-      latitude: Number(row.latitude),
-      longitude: Number(row.longitude),
+      place: row.place || '',
+      latitude: Number(row.latitude || 0),
+      longitude: Number(row.longitude || 0),
       locationAccuracy: row.location_accuracy || 'precise',
       comment: row.comment,
       imageUrl: row.image_url,

@@ -34,7 +34,7 @@ export class Tab3Page implements OnInit {
     this.loadError = '';
 
     try {
-      await this.surveyService.loadSurveys();
+      await this.surveyService.loadSurveys({ includeLocation: false });
     } catch (error) {
       this.loadError = error instanceof Error ? error.message : 'No se pudieron cargar estadisticas.';
     }
